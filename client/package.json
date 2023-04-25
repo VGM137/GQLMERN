@@ -2,9 +2,9 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "homepage": "./scr",
-  "proxy": "http://localhost:3000",
+  "proxy": "http://localhost:8080",
   "dependencies": {
+    "@apollo/client": "^3.7.12",
     "@apollo/react-hooks": "^4.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

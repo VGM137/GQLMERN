@@ -58,6 +58,6 @@ app.use(
 console.log(`🚀 Server ready at http://localhost:${process.env.PORT}`);
 console.log(apolloServer.graphqlPath) */
 app.listen(process.env.PORT, function(){
-  console.log(`Server is ready at htttp://localhost:${process.env.PORT}`)
-  console.log(`Graphql server is ready at htttp://localhost:${process.env.PORT}`)
+  console.log(`Server is ready at http://localhost:${process.env.PORT}`)
+  console.log(`Graphql server is ready at http://localhost:${process.env.PORT}`)
 })
