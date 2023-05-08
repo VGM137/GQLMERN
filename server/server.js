@@ -9,8 +9,10 @@ import bodyParser from 'body-parser';
 import "dotenv/config.js";
 import mongoose from "mongoose";
 
-import { posts, auth } from "./typeDefs/defs.js";
-import { postsResolver, authResolver } from "./resolvers/resolver.js";
+import { posts} from "./typeDefs/post.js";
+import { auth } from "./typeDefs/auth.js";
+import { postsResolver } from "./resolvers/postResolver.js";
+import { authResolver } from "./resolvers/authResolver.js";
 
 const types = [posts, auth]
 const allResolvers = [postsResolver, authResolver]
