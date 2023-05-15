@@ -1,13 +1,24 @@
 import React, {useState} from "react";
+import { toast } from 'react-toastify';
 import { getAuth, sendSignInLinkToEmail } from "firebase/auth";
 import { app } from "../../firebase";
 
 const Register = () => {
 
-  const [email, setEmail] = useState()
+  const [email, setEmail] = useState('victorgestaltung@gmail.com')
   const [loading, setLoading] = useState(false)
+  const options = {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+  };
 
-  const auth = getAuth(app);
+  const auth = getAuth();
   const actionCodeSettings = {
     url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,
     handleCodeInApp: true
@@ -19,26 +30,25 @@ const Register = () => {
 
     sendSignInLinkToEmail(auth, email, actionCodeSettings)
       .then((data) => {
-        console.log(data)
-        // The link was successfully sent. Inform the user.
-        // Save the email locally so you don't need to ask the user for it again
-        // if they open the link on the same device.
+        toast.success(`Email is sent to ${email}. Click the link to complete registration`, options)
         window.localStorage.setItem('emailForSignIn', email);
         setEmail('')
         setLoading(false)
-        // ...
       })
       .catch((error) => {
+        console.log('error')
         const errorCode = error.code;
         const errorMessage = error.message;
-        // ...
+        toast.error(`Sorry, there was an error: ${errorCode} - ${errorMessage}`, options)
+        setEmail('')
+        setLoading(false)
       });
   }
 
   return(
     <div className="container">
       <div className="row p-3">
-        <h4 className="">Register</h4>
+        {loading ? <h4 className="text-danger">Loading...</h4> : <h4 className="">Register</h4>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label className="m-1">Email address</label>
