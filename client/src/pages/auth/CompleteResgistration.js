@@ -22,6 +22,7 @@ const CompleteRegistration = () => {
     e.preventDefault()
     setLoading(true)
     if(!email || !password){
+      setLoading(false)
       toast.error('Email and password is required')
       return
     }
@@ -44,7 +45,7 @@ const CompleteRegistration = () => {
 
           toast.success(`User email ${user.email} succesfully verified`)
 
-          history('/')
+          /* history('/') */
         }
       }
     }catch(error){

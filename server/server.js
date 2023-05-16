@@ -9,6 +9,8 @@ import bodyParser from 'body-parser';
 import "dotenv/config.js";
 import mongoose from "mongoose";
 
+import { authCheck } from "./helpers/auth.js";
+
 import { posts} from "./typeDefs/post.js";
 import { auth } from "./typeDefs/auth.js";
 import { postsResolver } from "./resolvers/postResolver.js";
@@ -37,12 +39,13 @@ db();
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  plugins: [ApolloServerPluginDrainHttpServer({httpServer})]
+  plugins: [ApolloServerPluginDrainHttpServer({httpServer})],
+  context: ({req, res}) => ({req, res})
 });
 await apolloServer.start()
 
 
-app.get('/rest', function(req, res){
+app.get('/rest', authCheck, function(req, res){
   res.json({
     data: 'You hit rest endpoint'
   })
