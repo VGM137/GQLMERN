@@ -8,15 +8,14 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import "dotenv/config.js";
 import mongoose from "mongoose";
-
 import { authCheck } from "./helpers/auth.js";
-
 import { posts} from "./typeDefs/post.js";
 import { auth } from "./typeDefs/auth.js";
+import { user } from "./typeDefs/user.js";
 import { postsResolver } from "./resolvers/postResolver.js";
 import { authResolver } from "./resolvers/authResolver.js";
 
-const types = [posts, auth]
+const types = [posts, auth, user]
 const allResolvers = [postsResolver, authResolver]
 
 const typeDefs = mergeTypeDefs(types)
@@ -40,7 +39,7 @@ const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
   plugins: [ApolloServerPluginDrainHttpServer({httpServer})],
-  context: ({req, res}) => ({req, res})
+  
 });
 await apolloServer.start()
 
@@ -54,7 +53,9 @@ app.use(
   '/graphql',
   cors(),
   bodyParser.json(),
-  expressMiddleware(apolloServer),
+  expressMiddleware(apolloServer, {
+    context: ({req, res}) => ({req, res})
+  }),
 );
 
 

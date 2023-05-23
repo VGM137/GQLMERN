@@ -1,9 +1,13 @@
 import gql from "graphql-tag";
 import { posts } from "../temp.js";
+import { authCheck } from "../helpers/auth.js";
 
 //queires
 const totalPosts = () => posts.length;
-const allPosts = () => posts;
+const allPosts = async (parent, args, {req}) => {
+  await authCheck(req);
+  return posts
+};
 //mutations (parent, args, context)
 const newPost = (parent, args, context) => {
   console.log(args)

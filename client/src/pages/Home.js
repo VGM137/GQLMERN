@@ -36,18 +36,20 @@ function Home() {
     <>
       <div className='container p-2'>
         <div className='row'>
-          {data.allPosts.map((p) => (
-            <div className='col-md-4 mb-2' key={p.id}>
-              <div className='card'>
-                <div className='card-body'>
-                  <div className='card-title'>
-                    <h4>{p.title}</h4>
+          {data &&
+            data.allPosts.map((p) => (
+              <div className='col-md-4 mb-2' key={p.id}>
+                <div className='card'>
+                  <div className='card-body'>
+                    <div className='card-title'>
+                      <h4>{p.title}</h4>
+                    </div>
+                    <p className='card-text'>{p.description}</p>
                   </div>
-                  <p className='card-text'>{p.description}</p>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          }
         </div>
         <div className='row p-2'>
           <button onClick={(e) => fetchPost()} className='btn btn-primary col-3 m-1'>Fetch posts</button>

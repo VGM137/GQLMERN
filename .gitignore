@@ -1,5 +1,7 @@
 # Node template
 
+config
+
 # Logs
 logs
 *.log
