@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import { toast } from 'react-toastify';
 import { getAuth, sendSignInLinkToEmail } from "firebase/auth";
 import { app } from "../../firebase";
+import AuthForm from "../../components/forms/AuthForm";
 
 const Register = () => {
 
@@ -49,19 +50,7 @@ const Register = () => {
     <div className="container">
       <div className="row p-3">
         {loading ? <h4 className="text-danger">Loading...</h4> : <h4 className="">Register</h4>}
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label className="m-1">Email address</label>
-            <input 
-              type="email" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-              className="form-control col-3 col-m-3 m-0" 
-              placeholder="Enter email" 
-              disabled={loading} />
-          </div>
-          <button className='btn btn-primary col-3 mt-5' disabled={!email || loading} >Submit</button>
-        </form>
+        <AuthForm email={email} loading={loading} setEmail={setEmail} handleSubmit={handleSubmit}/>
       </div>
     </div>
   )

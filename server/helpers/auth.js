@@ -6,6 +6,8 @@ const app = initializeApp({
 });
 
 export const authCheck = async (req, res, next) => {
+  console.log(req.headers)
+  console.log(req.headers.authtoken)
   try{
     const currentUser = await getAuth().verifyIdToken(req.headers.authtoken)
     console.log('CURRENT USER', currentUser)

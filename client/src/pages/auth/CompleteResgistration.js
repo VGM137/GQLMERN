@@ -3,6 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { getAuth, isSignInWithEmailLink, signInWithEmailLink, updatePassword } from "firebase/auth";
 import { toast } from 'react-toastify';
 import { AuthContext } from "../../context/authContext";
+import { useMutation, gql } from "@apollo/client"
+import AuthForm from "../../components/forms/AuthForm";
+
+const USER_CREATE = gql`
+  mutation userCreate{
+    userCreate{
+      username
+      email
+    }
+  }
+`
 
 const CompleteRegistration = () => {
 
@@ -17,6 +28,8 @@ const CompleteRegistration = () => {
   useEffect(() => {
       setEmail(window.localStorage.getItem('emailForSignIn') ? window.localStorage.getItem('emailForSignIn') : '' )
   }, [])
+
+  const [userCreate] = useMutation(USER_CREATE)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -45,7 +58,9 @@ const CompleteRegistration = () => {
 
           toast.success(`User email ${user.email} succesfully verified`)
 
-          /* history('/') */
+          userCreate()
+
+          history('/')
         }
       }
     }catch(error){
@@ -59,29 +74,7 @@ const CompleteRegistration = () => {
     <div className="container">
       <div className="row p-3">
         {loading ? <h4 className="text-danger">Loading...</h4> : <h4 className="">Complete registration</h4>}
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label className="m-1">Email address</label>
-            <input 
-              type="email" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-              className="form-control col-3 col-m-3 m-0" 
-              placeholder="Enter email" 
-              disabled />
-          </div>
-          <div className="form-group">
-            <label className="m-1">Password</label>
-            <input 
-              type="password" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-              className="form-control col-3 col-m-3 m-0" 
-              placeholder="Enter password" 
-              disabled={loading} />
-          </div>
-          <button className='btn btn-primary col-3 mt-5' disabled={!email || loading} >Submit</button>
-        </form>
+        <AuthForm email={email} setEmail={setEmail} password={password} setPassword={setPassword} loading={loading} handleSubmit={handleSubmit} showPasswordInput={true} />
       </div>
     </div>
   )

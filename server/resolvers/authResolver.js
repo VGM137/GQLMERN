@@ -9,6 +9,7 @@ const me = async (parent, args, {req, res}) => {
 }
 const userCreate = async (parent, args, {req, res}) => {
   const currentUser = await authCheck(req)
+  console.log('userCreate', currentUser)
   const user = await UserModel.findOne({email: currentUser.email})
   return user ? user : new UserModel({
     email: currentUser.email,
