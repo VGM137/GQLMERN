@@ -8,8 +8,10 @@ import Nav from './components/Nav';
 import Home from './pages/Home';
 import Register from './pages/auth/Register';
 import Login from './pages/auth/Login';
+import PasswordForgot from './pages/auth/PasswordForgot';
 import CompleteRegistration from './pages/auth/CompleteResgistration';
 import { AuthContext } from './context/authContext';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   
@@ -44,6 +46,10 @@ function App() {
         <Route exact path='/login' element={<Login />} />
         <Route exact path='/register' element={<Register />} />
         <Route exact path='/complete-registration' element={<CompleteRegistration />} />
+        <Route path='/' element={<PrivateRoute />} >
+          <Route path='/' element={<Home/>}/>
+          <Route exact path='/password/forgot' element={<PasswordForgot />} />
+        </Route>
       </Routes>
     </ApolloProvider>
   );

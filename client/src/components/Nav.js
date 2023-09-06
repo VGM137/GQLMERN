@@ -59,7 +59,11 @@ function NavComponent() {
               </>
             }
             {user &&
-              <Nav.Link onClick={logout} href="/login">Logout</Nav.Link>
+              <>
+                <Nav.Link onClick={logout} href="/login">Logout</Nav.Link>
+                <Nav.Link href='/create/post'>Post</Nav.Link>
+                <Nav.Link href='/password/forgot'>Password</Nav.Link>
+              </>
             }
           </Nav>
           <Form className="d-flex">
