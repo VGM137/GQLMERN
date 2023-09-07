@@ -36,10 +36,8 @@ const Login = () => {
     try{
       await signInWithEmailAndPassword(auth, email, password)
         .then(async result => {
-          console.log(result)
           const {user} = result
           const idTokenResult = await user.getIdTokenResult(true)
-          console.log(idTokenResult)
 
           dispatch({
             type: 'LOGGED_IN_USER',
@@ -47,7 +45,7 @@ const Login = () => {
           })
 
           userCreate()
-          history('/')
+          history('/profile')
         })
 
     }catch(error){
@@ -61,11 +59,8 @@ const Login = () => {
   signInWithPopup(auth, googleAuth)
     .then(async (result) => {
       const credential = await GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
       const {user} = result
-      const idTokenResult = await user.getIdTokenResult()
-      console.log(credential)
-      console.log(result)
+      const idTokenResult = await user.getIdTokenResult(true)
 
       dispatch({
         type: 'LOGGED_IN_USER',
@@ -73,7 +68,7 @@ const Login = () => {
       })
 
       await userCreate()
-      history('/')
+      history('/profile')
     }).catch((error) => {
       console.log(error)
       toast.error(error.message)
@@ -87,6 +82,9 @@ const Login = () => {
         {loading ? <h4 className="text-danger">Loading...</h4> : <h4 className="">Login</h4>}
         <button onClick={googleLogin} className='btn btn-raised btn-danger btn-primary col-3 mt-5' disabled={!email || !password || loading} >Login with google</button>
         <AuthForm email={email} setEmail={setEmail} password={password} setPassword={setPassword} loading={loading} handleSubmit={handleSubmit} showPasswordInput={true} />
+        <Link className="text-danger float-right" to={'/password/forgot'}>
+          Forgot password
+        </Link>
       </div>
     </div>
   )

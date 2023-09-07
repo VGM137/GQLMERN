@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import { getAuth, signOut } from 'firebase/auth';
 import { app } from '../firebase';
 import { AuthContext } from '../context/authContext';
@@ -60,9 +61,12 @@ function NavComponent() {
             }
             {user &&
               <>
-                <Nav.Link onClick={logout} href="/login">Logout</Nav.Link>
-                <Nav.Link href='/create/post'>Post</Nav.Link>
-                <Nav.Link href='/password/forgot'>Password</Nav.Link>
+                <NavDropdown title='User'>
+                  <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+                  <NavDropdown.Item href='/post/create'>Post</NavDropdown.Item>
+                  <NavDropdown.Item href='/password/update'>Password</NavDropdown.Item>
+                  <NavDropdown.Item onClick={logout} href="/login">Logout</NavDropdown.Item>
+                </NavDropdown>
               </>
             }
           </Nav>

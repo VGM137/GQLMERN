@@ -1,4 +1,4 @@
-import React, { useReducer, createContext, useEffect } from "react";
+import React, { useReducer, createContext, useEffect, useState } from "react";
 import { getAuth } from "firebase/auth";
 
 /* Reducer */
@@ -22,10 +22,12 @@ const AuthContext = createContext()
 /* Context provider */
 const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(firebaseReducer, initialState)
+  const [isLoading, setLoading] = useState(true)
   const auth = getAuth()
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async user => {
+      console.log(user)
       let value = {
         type: 'LOGGED_IN_USER',
         payload: null
@@ -37,14 +39,15 @@ const AuthProvider = ({ children }) => {
       }else{
         dispatch(value)
       }
+      setLoading(false)
     })
 
     return () => unsubscribe();
   }, [])
 
   const value = { state, dispatch }
-  console.log(state)
-  return <AuthContext.Provider value={value}>{ children }</AuthContext.Provider>
+
+  return isLoading ? <div>Loading...</div> : <AuthContext.Provider value={value}>{ children }</AuthContext.Provider>
 }
 
 /* Export */

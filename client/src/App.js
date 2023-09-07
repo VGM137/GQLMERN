@@ -8,6 +8,9 @@ import Nav from './components/Nav';
 import Home from './pages/Home';
 import Register from './pages/auth/Register';
 import Login from './pages/auth/Login';
+import Profile from './pages/auth/Profile';
+import Post from './pages/post/Post';
+import PasswordUpdate from './pages/auth/PasswordUpdate';
 import PasswordForgot from './pages/auth/PasswordForgot';
 import CompleteRegistration from './pages/auth/CompleteResgistration';
 import { AuthContext } from './context/authContext';
@@ -17,6 +20,7 @@ function App() {
   
   const { state } = useContext(AuthContext)
   const { user } = state
+  console.log(user)
 
   const httpLink = createHttpLink({
     uri: process.env.REACT_APP_GRAPHQL_ENDPOINT,
@@ -38,6 +42,7 @@ function App() {
   })
 
   return (
+    client ?
     <ApolloProvider client={client}>
       <ToastContainer />
       <Nav />
@@ -46,12 +51,20 @@ function App() {
         <Route exact path='/login' element={<Login />} />
         <Route exact path='/register' element={<Register />} />
         <Route exact path='/complete-registration' element={<CompleteRegistration />} />
-        <Route path='/' element={<PrivateRoute />} >
+        <Route exact path='/password/forgot' element={<PasswordForgot />} />
+        <Route path='/' element={<PrivateRoute user={user} />} >
           <Route path='/' element={<Home/>}/>
-          <Route exact path='/password/forgot' element={<PasswordForgot />} />
+          <Route exact path='/profile' element={<Profile />} />
+          <Route exact path='/post/create' element={<Post />} />
+          <Route exact path='/password/update' element={<PasswordUpdate />} />
         </Route>
       </Routes>
     </ApolloProvider>
+    :
+    <>
+      <div>Loading...</div>
+    </>
+    
   );
 }
 

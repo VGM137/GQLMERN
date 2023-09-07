@@ -60,7 +60,7 @@ const CompleteRegistration = () => {
 
           userCreate()
 
-          history('/')
+          history('/profile')
         }
       }
     }catch(error){
