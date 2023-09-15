@@ -1,6 +1,7 @@
 import gql from "graphql-tag";
 import { posts } from "../temp.js";
 import { authCheck } from "../helpers/auth.js";
+import { DateTimeResolver } from "graphql-scalars";
 
 //queires
 const totalPosts = () => posts.length;

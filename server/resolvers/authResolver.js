@@ -2,10 +2,11 @@ import gql from "graphql-tag";
 import { authCheck } from "../helpers/auth.js";
 import { UserModel } from "../models/user.js"
 import shortId from "shortid"
+import { DateTimeResolver } from "graphql-scalars";
 
-const me = async (parent, args, {req, res}) => {
-  await authCheck(req, res);
-  return 'Victor'
+const profile = async (parent, args, {req, res}) => {
+  const currentUser = await authCheck(req, res);
+  return await UserModel.findOne({email: currentUser.email}).exec()
 }
 const userCreate = async (parent, args, {req, res}) => {
   const currentUser = await authCheck(req)
@@ -17,11 +18,24 @@ const userCreate = async (parent, args, {req, res}) => {
   }).save()
 }
 
+const userUpdate = async (parent, args, { req }) => {
+  const currentUser = await authCheck(req)
+  console.log(args)
+  const updateUser = await UserModel.findOneAndUpdate(
+      {email: currentUser.email}, 
+      {...args.input}, 
+      {new: true}
+  ).exec()
+
+  return updateUser
+}
+
 export const authResolver = {
   Query: {
-    me
+    profile
   },
   Mutation: {
-    userCreate
+    userCreate,
+    userUpdate
   }
 };

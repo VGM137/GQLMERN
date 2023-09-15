@@ -11,11 +11,11 @@ import mongoose from "mongoose";
 import { authCheck } from "./helpers/auth.js";
 import { posts} from "./typeDefs/post.js";
 import { auth } from "./typeDefs/auth.js";
-import { user } from "./typeDefs/user.js";
+/* import { user } from "./typeDefs/user.js"; */
 import { postsResolver } from "./resolvers/postResolver.js";
 import { authResolver } from "./resolvers/authResolver.js";
 
-const types = [posts, auth, user]
+const types = [posts, auth]
 const allResolvers = [postsResolver, authResolver]
 
 const typeDefs = mergeTypeDefs(types)

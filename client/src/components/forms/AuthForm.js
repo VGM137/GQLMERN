@@ -23,7 +23,7 @@ const AuthForm = ({email = '', password = '', loading, setEmail = (f) => f, setP
             value={password} 
             onChange={(e) => setPassword(e.target.value)} 
             className="form-control" 
-            placeholder="Enter email" 
+            placeholder="Enter password" 
             disabled={loading} />
         </>
       }
