@@ -34,7 +34,7 @@ const AuthProvider = ({ children }) => {
       }
       if(user){
         const idTokenResult = await user.getIdTokenResult()
-        value.payload = { emal: user.email, token: idTokenResult.token }
+        value.payload = { email: user.email, token: idTokenResult.token }
         dispatch(value)
       }else{
         dispatch(value)

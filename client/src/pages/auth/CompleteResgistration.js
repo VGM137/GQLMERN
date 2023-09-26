@@ -5,15 +5,7 @@ import { toast } from 'react-toastify';
 import { AuthContext } from "../../context/authContext";
 import { useMutation, gql } from "@apollo/client"
 import AuthForm from "../../components/forms/AuthForm";
-
-const USER_CREATE = gql`
-  mutation userCreate{
-    userCreate{
-      username
-      email
-    }
-  }
-`
+import { USER_CREATE } from "../../graphql/mutations";
 
 const CompleteRegistration = () => {
 
@@ -53,7 +45,7 @@ const CompleteRegistration = () => {
           const idTokenResult = await user.getIdTokenResult()
           dispatch({
             type: 'LOGGED_IN_USER',
-            payload: { emal: user.email, token: idTokenResult.token }
+            payload: { email: user.email, token: idTokenResult.token }
           })
 
           toast.success(`User email ${user.email} succesfully verified`)

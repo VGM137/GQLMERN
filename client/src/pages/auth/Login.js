@@ -4,17 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { getAuth, signInWithPopup, signInWithEmailAndPassword, GoogleAuthProvider } from "firebase/auth";
 import { app, googleAuth } from "../../firebase";
-import { useMutation, gql } from "@apollo/client"
+import { useMutation } from "@apollo/client"
 import AuthForm from "../../components/forms/AuthForm";
-
-const USER_CREATE = gql`
-  mutation userCreate{
-    userCreate{
-      username
-      email
-    }
-  }
-`
+import { USER_CREATE } from "../../graphql/mutations";
 
 const Login = () => {
 

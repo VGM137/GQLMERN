@@ -20,7 +20,6 @@ const userCreate = async (parent, args, {req, res}) => {
 
 const userUpdate = async (parent, args, { req }) => {
   const currentUser = await authCheck(req)
-  console.log(args)
   const updateUser = await UserModel.findOneAndUpdate(
       {email: currentUser.email}, 
       {...args.input}, 

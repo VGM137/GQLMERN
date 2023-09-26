@@ -62,7 +62,7 @@ function NavComponent() {
             {user &&
               <>
                 <NavDropdown title='User'>
-                  <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+                  <NavDropdown.Item href="/profile">{user.email && user.email.split('@')[0]} </NavDropdown.Item>
                   <NavDropdown.Item href='/post/create'>Post</NavDropdown.Item>
                   <NavDropdown.Item href='/password/update'>Password</NavDropdown.Item>
                   <NavDropdown.Item onClick={logout} href="/login">Logout</NavDropdown.Item>
