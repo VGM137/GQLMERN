@@ -6,6 +6,8 @@ import { setContext } from '@apollo/client/link/context';
 import { ToastContainer } from 'react-toastify';
 import Nav from './components/Nav';
 import Home from './pages/Home';
+import Users from './pages/Users';
+import UserProfile from './components/UserProfile';
 import Register from './pages/auth/Register';
 import Login from './pages/auth/Login';
 import Profile from './pages/auth/Profile';
@@ -15,6 +17,7 @@ import PasswordForgot from './pages/auth/PasswordForgot';
 import CompleteRegistration from './pages/auth/CompleteResgistration';
 import { AuthContext } from './context/authContext';
 import PrivateRoute from './components/PrivateRoute';
+import PublicRoute from './components/PublicRoute';
 
 function App() {
   
@@ -48,10 +51,14 @@ function App() {
       <Nav />
       <Routes>
         <Route exact path='/' element={<Home />} />
-        <Route exact path='/login' element={<Login />} />
-        <Route exact path='/register' element={<Register />} />
-        <Route exact path='/complete-registration' element={<CompleteRegistration />} />
-        <Route exact path='/password/forgot' element={<PasswordForgot />} />
+        <Route exact path='/users' element={<Users />} />
+        <Route exact path='/user/:username' element={<UserProfile />} />
+        <Route path='/' element={<PublicRoute user={user} />}>
+          <Route exact path='/login' element={<Login />} />
+          <Route exact path='/register' element={<Register />} />
+          <Route exact path='/complete-registration' element={<CompleteRegistration />} />
+          <Route exact path='/password/forgot' element={<PasswordForgot />} />
+        </Route>
         <Route path='/' element={<PrivateRoute user={user} />} >
           <Route path='/' element={<Home/>}/>
           <Route exact path='/profile' element={<Profile />} />

@@ -8,6 +8,13 @@ const profile = async (parent, args, {req, res}) => {
   const currentUser = await authCheck(req, res);
   return await UserModel.findOne({email: currentUser.email}).exec()
 }
+
+const publicProfile = async (parent, args, { req }) => {
+  return await UserModel.findOne({ username: args.username }).exec()
+}
+
+const allUsers = async (parent, args) => await UserModel.find({}).exec()
+
 const userCreate = async (parent, args, {req, res}) => {
   const currentUser = await authCheck(req)
   console.log('userCreate', currentUser)
@@ -31,7 +38,9 @@ const userUpdate = async (parent, args, { req }) => {
 
 export const authResolver = {
   Query: {
-    profile
+    profile,
+    publicProfile,
+    allUsers
   },
   Mutation: {
     userCreate,

@@ -3,16 +3,7 @@ import React, { useState, useContext } from 'react';
 import { gql, useQuery, useLazyQuery } from '@apollo/client';
 import { AuthContext } from '../context/authContext';
 import { useNavigate } from 'react-router-dom';
-
-const GET_ALL_POSTS = gql`
-  {
-    allPosts {
-      id
-      title
-      description
-    }
-  } 
-`;
+import { GET_ALL_POSTS } from '../graphql/queries';
 
 function Home() {
   

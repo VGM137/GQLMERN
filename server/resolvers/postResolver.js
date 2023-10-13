@@ -6,7 +6,7 @@ import { DateTimeResolver } from "graphql-scalars";
 //queires
 const totalPosts = () => posts.length;
 const allPosts = async (parent, args, {req}) => {
-  await authCheck(req);
+  await authCheck(req);//This line helps to show posts only if there is a user
   return posts
 };
 //mutations (parent, args, context)

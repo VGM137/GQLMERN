@@ -66,7 +66,7 @@ app.post('/uploadimages', authCheckMiddleware, (req, res) => {
     req.body.image, 
   ).then((result) => {
     res.send({
-      url: result.url,
+      url: result.secure_url,
       public_id: result.public_id
     });
   },

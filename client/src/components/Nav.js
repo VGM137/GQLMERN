@@ -55,6 +55,7 @@ function NavComponent() {
           >
             {!user &&
               <>
+                <Nav.Link href="/users">Users</Nav.Link>
                 <Nav.Link href="/login">Login</Nav.Link>
                 <Nav.Link href="/register">Register</Nav.Link>
               </>
