@@ -1,8 +1,6 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -10,6 +8,7 @@ import { getAuth, signOut } from 'firebase/auth';
 import { app } from '../firebase';
 import { AuthContext } from '../context/authContext';
 import { toast } from 'react-toastify';
+import Search from './Search';
 
 function NavComponent() {
 
@@ -71,15 +70,7 @@ function NavComponent() {
               </>
             }
           </Nav>
-          <Form className="d-flex">
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-            />
-            <Button variant="outline-success">Search</Button>
-          </Form>
+          <Search />
         </Navbar.Collapse>
       </Container>
     </Navbar>

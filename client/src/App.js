@@ -12,12 +12,15 @@ import Register from './pages/auth/Register';
 import Login from './pages/auth/Login';
 import Profile from './pages/auth/Profile';
 import Post from './pages/post/Post';
+import PostUpdate from './pages/post/PostUpdate';
 import PasswordUpdate from './pages/auth/PasswordUpdate';
 import PasswordForgot from './pages/auth/PasswordForgot';
 import CompleteRegistration from './pages/auth/CompleteResgistration';
 import { AuthContext } from './context/authContext';
 import PrivateRoute from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
+import SinglePost from './pages/post/SinglePost';
+import SearchResult from './components/SearchResult';
 
 function App() {
   
@@ -53,6 +56,8 @@ function App() {
         <Route exact path='/' element={<Home />} />
         <Route exact path='/users' element={<Users />} />
         <Route exact path='/user/:username' element={<UserProfile />} />
+        <Route exact path='/post/:postid' element={<SinglePost />} />
+        <Route exact path='/search/:query' element={<SearchResult />} />
         <Route path='/' element={<PublicRoute user={user} />}>
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/register' element={<Register />} />
@@ -63,6 +68,7 @@ function App() {
           <Route path='/' element={<Home/>}/>
           <Route exact path='/profile' element={<Profile />} />
           <Route exact path='/post/create' element={<Post />} />
+          <Route exact path='/post/update/:postid' element={<PostUpdate />} />
           <Route exact path='/password/update' element={<PasswordUpdate />} />
         </Route>
       </Routes>

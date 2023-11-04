@@ -20,11 +20,13 @@ export const auth = gql`
     createdAt: DateTime
     updatedAt: DateTime
   }
+
   # Custom type
   type UserCreateResponse {
     username: String!
     email: String!
   }
+  
   # input type
   input ImageInput {
     url: String
@@ -38,11 +40,13 @@ export const auth = gql`
     images: [ImageInput]
     about: String
   }
+
   type Query {
     profile: User!
     publicProfile(username: String!): User!
     allUsers: [User!]
   }
+  
   type Mutation {
     userCreate: UserCreateResponse!
     userUpdate(input: UserUpdateInput): User!

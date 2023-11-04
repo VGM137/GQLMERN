@@ -1,12 +1,12 @@
 import React from "react";
 
-const Image = ({image}) => {
+const Image = ({image, height = 100}) => {
   return (
     <img 
       src={image.url} 
       key={image.public_id} 
       alt={image.public_id} 
-      height={100} 
+      height={height} 
       className="float-right" 
       loading="lazy"
     >

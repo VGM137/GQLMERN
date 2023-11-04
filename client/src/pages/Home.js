@@ -1,14 +1,21 @@
 
-import React, { useState, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { gql, useQuery, useLazyQuery } from '@apollo/client';
 import { AuthContext } from '../context/authContext';
 import { useNavigate } from 'react-router-dom';
-import { GET_ALL_POSTS } from '../graphql/queries';
+import { GET_ALL_POSTS, TOTAL_POST } from '../graphql/queries';
+import PostCard from '../components/PostCard';
+import PostPagination from '../components/PostPagination';
 
 function Home() {
   
-  const { loading, error, data } = useQuery(GET_ALL_POSTS);
-  const [fetchPost, { data: postsData, loading: loadingData, error: dataError }] = useLazyQuery(GET_ALL_POSTS)
+  const [currentPage, setPage] = useState(1)
+  const { loading, error, data } = useQuery(GET_ALL_POSTS, {
+    variables: {page: currentPage}
+  });
+
+  const {data: postCount} = useQuery(TOTAL_POST);
+  const [fetchPost, { data: postData, loading: loadingData, error: dataError }] = useLazyQuery(GET_ALL_POSTS);
 
   const {state, dispatch} = useContext(AuthContext)
   let history = useNavigate()
@@ -22,35 +29,22 @@ function Home() {
 
   if(loading) return <p className='p-5'>Loading...</p>
 
-
   return (
     <>
       <div className='container p-2'>
         <div className='row'>
           {data &&
-            data.allPosts.map((p) => (
-              <div className='col-md-4 mb-2' key={p.id}>
-                <div className='card'>
-                  <div className='card-body'>
-                    <div className='card-title'>
-                      <h4>{p.title}</h4>
-                    </div>
-                    <p className='card-text'>{p.description}</p>
-                  </div>
-                </div>
-              </div>
+            data.allPosts.map((p, i) => (
+              <PostCard key={`post-${i}`} p={p}/>
             ))
           }
         </div>
-        <div className='row p-2'>
-          <button onClick={(e) => fetchPost()} className='btn btn-primary col-3 m-1'>Fetch posts</button>
-        </div>
-        {JSON.stringify(postsData)}
-        {JSON.stringify(state.user)}
-        <div className='row p-2'>
-          <button onClick={(e) => updateUserName()} className='btn btn-primary col-4 m-1'>Change user name</button>
-        </div>
-        {JSON.stringify(history)}
+
+        <PostPagination currentPage={currentPage} setPage={setPage} postCount={postCount} />
+       
+        {/* {JSON.stringify(postData)}
+        {JSON.stringify(state.user)} */}
+        {/* {JSON.stringify(history)} */}
       </div>
     </>
   );

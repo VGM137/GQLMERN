@@ -3,7 +3,7 @@ import Resizer from "react-image-file-resizer";
 import axios from 'axios'
 import { AuthContext } from "../context/authContext";
 
-const FileUpload = ({setValues, setLoading, values, loading}) => {
+const FileUpload = ({setValues, setLoading, values, loading, singleUpload = false}) => {
 
   const {state} = useContext(AuthContext)
 
@@ -38,8 +38,14 @@ const FileUpload = ({setValues, setLoading, values, loading}) => {
       let data = res.data;
       if(data){
         setLoading(false)
-        const {images} = values
-        let newObject = {...values, images: [...images, data]}
+        let newObject = {}
+        if(singleUpload){
+          const {image} = values
+          newObject = {...values, image:  data}
+        }else{
+          const {images} = values
+          newObject = {...values, images: [...images, data]}
+        }
         setValues(newObject)
       }
     } catch (err) {

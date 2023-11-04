@@ -2,20 +2,37 @@ import gql from "graphql-tag";
 
 export const posts = gql`
   type Post{
-    id: ID!
-    title: String!
-    description: String!
+    _id: ID!
+    content: String
+    image: Image
+    postedBy: User
   }
-  type Query {
-    totalPosts: Int!
-    allPosts: [Post!]
+
+  # input type
+  input PostCreateInput{
+    content: String!
+    image: ImageInput
   }
   # input type
-  input PostInput{
-    title: String!
-    description: String!
+  input PostUpdateInput{
+    _id: String!
+    content: String!
+    image: ImageInput
   }
+
+  type Query {
+    totalPosts: Int!
+    allPosts(page: Int): [Post!]!
+    postByUser: [Post!]!
+    singlePost(postId: String!): Post!
+    search(query: String): [Post]
+  }
+
+
+  # mutations
   type Mutation {
-    newPost(input: PostInput!): Post!
+    postCreate(input: PostCreateInput!): Post!
+    postUpdate(input: PostUpdateInput!): Post!
+    postDelete(postId: String!): Post!
   }
 `
