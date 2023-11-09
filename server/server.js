@@ -8,9 +8,14 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import "dotenv/config.js";
 import mongoose from "mongoose";
-
-import { posts, auth } from "./typeDefs/defs.js";
-import { postsResolver, authResolver } from "./resolvers/resolver.js";
+import { authCheck } from "./helpers/auth.js";
+import { posts} from "./typeDefs/post.js";
+import { auth } from "./typeDefs/auth.js";
+/* import { user } from "./typeDefs/user.js"; */
+import { postsResolver } from "./resolvers/postResolver.js";
+import { authResolver } from "./resolvers/authResolver.js";
+import {v2 as cloudinary} from 'cloudinary';
+import { authCheckMiddleware } from "./helpers/auth.js";
 
 const types = [posts, auth]
 const allResolvers = [postsResolver, authResolver]
@@ -20,6 +25,12 @@ const resolvers = mergeResolvers(allResolvers)
 
 const app = express();
 const httpServer = http.createServer(app);
+
+cloudinary.config({ 
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 const db = async () => {
   try{
@@ -35,21 +46,53 @@ db();
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  plugins: [ApolloServerPluginDrainHttpServer({httpServer})]
+  plugins: [ApolloServerPluginDrainHttpServer({httpServer})],
+  
 });
 await apolloServer.start()
 
+app.use(cors())
+app.use(bodyParser.json({ limit: '5mb' }))
 
-app.get('/rest', function(req, res){
+
+app.get('/rest', authCheck, function(req, res){
   res.json({
     data: 'You hit rest endpoint'
   })
 })
+
+app.post('/uploadimages', authCheckMiddleware, (req, res) => {
+  cloudinary.uploader.upload(
+    req.body.image, 
+  ).then((result) => {
+    res.send({
+      url: result.secure_url,
+      public_id: result.public_id
+    });
+  },
+  {
+    public_id: `${Date.now()}`,
+    resource_type: 'auto'
+  }).catch(error => console.log(error))
+});
+
+app.post('/removeimages', authCheckMiddleware, (req, res) => {
+  let imageId = req.body.public_id
+
+  cloudinary.uploader.destroy(imageId, (error, result) => {
+    if(error) return res.json({ success: false, error})
+
+    res.send('ok')
+  })
+});
+
 app.use(
   '/graphql',
   cors(),
-  bodyParser.json(),
-  expressMiddleware(apolloServer),
+  bodyParser.json({ limit: '5mb' }),
+  expressMiddleware(apolloServer, {
+    context: ({req, res}) => ({req, res})
+  }),
 );
 
 

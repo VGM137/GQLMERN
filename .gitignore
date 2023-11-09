@@ -1,5 +1,8 @@
 # Node template
 
+config
+firebaseConfig.json
+
 # Logs
 logs
 *.log

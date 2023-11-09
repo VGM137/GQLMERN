@@ -1,0 +1,18 @@
+.user-card{
+  min-height: 80px;
+}
+.user-card__image{
+  aspect-ratio: 1;
+  overflow: hidden;
+  width: 30%;
+  height: auto;
+  border-radius: 9999px;
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+}
+.user-card__image img{
+  width: 100%;
+  height: auto;
+}
