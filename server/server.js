@@ -51,7 +51,12 @@ const apolloServer = new ApolloServer({
 });
 await apolloServer.start()
 
-app.use(cors())
+const corsOptions = {
+  origin: ['https://clientsidegqlmern.onrender.com'],
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+app.use(cors(corsOptions))
 app.use(bodyParser.json({ limit: '5mb' }))
 
 
